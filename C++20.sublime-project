@@ -1,0 +1,114 @@
+{
+	"folders":
+	[
+
+		{
+			"path": "C:\\download\\demo",
+		},
+		{
+			"path": "C:\\download\\c++20",
+		},
+		{
+			"path": "C:\\download\\bazelbuild",
+		},
+		{
+			"path": "C:\\download\\dotnet\\wpf"
+		},
+	],
+	"settings":
+	{
+		"LSP":
+		{
+			"clangd":
+			{
+				"enabled": true,
+			},
+		},
+	},
+    "build_systems":
+    [
+		{
+			"name":"GCC & Clang",
+		    "env": {
+		        "PATH": "C:\\mingw-w64\\x86_64-12.2.0-release-win32-seh-msvcrt-rt_v10-rev2\\bin;%PATH%",
+		        "VS2019": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\Tools\\VsDevCmd.bat\" -arch=x64 -host_arch=x64",
+		        "ccv": "C:\\mingw-w64\\x86_64-12.2.0-release-win32-seh-msvcrt-rt_v10-rev2\\bin\\g++.exe",
+		        "ccu": "C:\\mingw-w64\\x86_64-12.2.0-release-win32-seh-ucrt-rt_v10-rev2\\bin\\g++.exe",
+		        "fmtlib": "/3rd/fmtlib/include",
+		    },
+		    "shell_cmd": "\"%ccv%\" --help || \"%ccu\" --help",
+		    "file_regex": "^\\.?\\.?/?(.*?):([0-9]*):([0-9]*): (.+)",
+		    // "working_dir": "${project_path:${folder}}",
+		    "working_dir": "${file_path}",
+		    "selector": "source.c++, source.c",
+		    "encoding":"GBK",
+		    "quiet": true,
+		    "variants":[
+		        {
+		            "name":"G++ (-std=c++20) Active File",
+		            "shell_cmd":"mkdir build || cd build && %ccu% -g -std=c++20 -I\"${project_path}%fmtlib%\" -fmodules-ts \"$file\" -o $file_base_name && ${file_base_name} && Echo done "
+		        },
+		        {
+		            "name":"G++ (-std=c++20) Active Modules",
+		            "shell_cmd":"mkdir build || cd build && %ccu% -g -std=c++20 -I\"${project_path}%fmtlib%\" -fmodules-ts ../*.cpp ../*.cc ../*.cxx -o $file_base_name && ${file_base_name} && Echo done "
+		        },
+		        {
+		            "name":"Clang++ (-std=c++20) Active File",
+		            "shell_cmd":"cmd /c \"%VS2019% && mkdir build || cd build && clang++ -I\"${project_path}%fmtlib%\" -g -std=c++20 \"$file\" -o $file_base_name.exe && ${file_base_name} && Echo done \" "
+		        },
+		        {
+		            "name":"Clang++ (-std=c++20) Active Modules",
+		            "shell_cmd":"cmd /c \"%VS2019% && mkdir build || cd build && powershell /c \"clang++ -std=c++20 --precompile (dir ../*.cppm); echo =====; clang++ -g -std=c++20 -I\"${project_path}%fmtlib%\" -fprebuilt-module-path=\"$file_path/build\" (dir *.pcm) (dir ../*.cpp) -o $file_base_name.exe \" && ${file_base_name} && Echo done \" "
+		        },
+		    ]
+		},
+    	{
+	    	"name":"MSVC Compiler",
+		    "env": {
+		        "msvc19":"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\Tools\\VsDevCmd.bat",
+		        "msvc22":"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\Tools\\VsDevCmd.bat",
+		        "VCToolsInstallDir": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\",
+		        "cc20":"cl /std:c++20 /EHsc /MTd",
+		        "ccla":"cl /std:c++latest /W4 /EHsc /MTd",
+		    },
+		    "shell_cmd": "cmd /c \"\"%msvc19%\" && \"%msvc22%\"\"",
+		    "file_regex": "^(...*?)\\(([0-9]*)\\):([0-9]*)",
+		    "working_dir": "${file_path}",
+		    "selector": "source.c++, source.c, source.ixx",
+		    "encoding":"GBK",
+		    "quiet": true,
+		    "variants":[
+		        { "name":"Visual Studio 2019", "shell_cmd": "cmd /c \"\"%msvc19%\" && cl /help\"" },
+		        { "name":"Visual Studio 2022", "shell_cmd": "cmd /c \"\"%msvc22%\" && cl /help\"" },
+		        {
+		            "name":"MSVC v16.x (/std:c++20) ACTIVE FILE",
+		            "shell_cmd": "cmd /c \"\"%msvc19%\" && mkdir build || cd build && %cc20% ${file} /link /OUT:${file_base_name}.exe\" && cd build && ${file_base_name} "
+		        },
+		        {
+		            "name":"MSVC v16.x (/std:c++latest) ACTIVE FILE",
+		            "shell_cmd": "cmd /c \"\"%msvc19%\" && mkdir build || cd build && %ccla% ${file} /link /OUT:${file_base_name}.exe\" && cd build && ${file_base_name} "
+		        },
+		        {
+		            "name":"MSVC v16.x (/std:c++20)",
+		            "shell_cmd": "cmd /c \"\"%msvc19%\" && mkdir build || cd build && %cc20% ..\\*.cpp ..\\*.ixx /link /OUT:${file_base_name}.exe\" && cd build && ${file_base_name} "
+		        },
+		        {
+		            "name":"MSVC v17.x (/std:c++20) ACTIVE FILE",
+		            "shell_cmd": "cmd /c \"\"%msvc22%\" && mkdir build || cd build && %cc20% ${file} /link /OUT:${file_base_name}.exe\" && cd build && ${file_base_name} "
+		        },
+		        {
+		            "name":"MSVC v17.x (/std:c++latest) ACTIVE FILE",
+		            "shell_cmd": "cmd /c \"\"%msvc22%\" && mkdir build || cd build && %ccla% ${file} /link /OUT:${file_base_name}.exe\" && cd build && ${file_base_name} "
+		        },
+		        {
+		            "name":"MSVC v17.x (/std:c++latest)",
+		            "shell_cmd": "cmd /c \"\"%msvc22%\" && mkdir build || cd build && %ccla% ..\\*.cpp ..\\*.ixx /link /OUT:${file_base_name}.exe\" && cd build && ${file_base_name} "
+		        },
+		        {
+		            "name":"MSVC v17.x (build named module: std & std.compat)",
+		            "shell_cmd": "cmd /c \"\"%msvc22%\" && mkdir build || cd build && %ccla% /c \"%VCToolsInstallDir%\\modules\\std.ixx\" \"%VCToolsInstallDir%\\modules\\std.compat.ixx\"\" && echo Done"
+		        },
+		    ]
+		},
+	]
+}

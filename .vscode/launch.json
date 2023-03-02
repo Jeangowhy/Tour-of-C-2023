@@ -1,0 +1,65 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch VSDBG (Clang++)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/${fileBasenameNoExtension}.exe",
+      "args": [],
+      // "stopAtEntry": true,
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "preLaunchTask": "C++20: clang++ build active file",
+    },
+    {
+      "name": "Launch GDB (g++)",
+      "type": "cppdbg",
+      "request": "launch",
+      // "program": "${workspaceFolder}/bin/${fileBasenameNoExtension}.exe",
+      "program": "c:/windows/system32/cmd.exe",
+      "args": ["/c","set"],
+      // "stopAtEntry": true,
+      // "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "environment": [ 
+        {
+        "name": "PATH_TEST", 
+        "value": "C:\\mingw-w64\\x86_64-12.2.0-release-win32-seh-ucrt-rt_v10-rev2\\bin;%PATH%" 
+        }
+      ],
+      "preLaunchTask": "C++20: g++ build active file",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb.exe",
+      // "miDebuggerServerAddress": "serveraddress:port",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "type": "cppvsdbg",
+      "request": "launch",
+      "name": "Launch Web Server",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build demo web server",
+      "program": "${workspaceFolder}/demo.exe",
+      "internalConsoleOptions": "neverOpen",
+      "presentation": { "hidden": false, "group": "Test", "order": 1 },
+      "serverReadyAction":{
+        // "name": "Web Server Launched",
+        "action": "openExternally", // "debugWithChrome", "startDebugging",
+        "pattern": "Now listening on: https://localhost:([0-9]+)",
+        "uriFormat": "http://localhost:%s",
+        "killOnServerStop": false
+      }
+    },
+  ]
+}
