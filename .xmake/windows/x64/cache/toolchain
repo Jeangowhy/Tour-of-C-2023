@@ -1,0 +1,149 @@
+{
+    ["tool_target_hello-xmake_windows_x64_cxx"] = {
+        toolchain_info = {
+            name = "llvm",
+            plat = "windows",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clang",
+        program = [[C:\LLVM\bin\clang]]
+    },
+    ["tool_target_sub-world_windows_x64_cxx"] = {
+        toolchain_info = {
+            name = "llvm",
+            plat = "windows",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clang",
+        program = [[C:\LLVM\bin\clang]]
+    },
+    ["tool_target_hello-xmake_windows_x64_ld"] = {
+        toolchain_info = {
+            plat = "windows",
+            name = "llvm",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clangxx",
+        program = [[C:\LLVM\bin\clang++]]
+    },
+    ["tool_target_hello-xmake_windows_x64_cc"] = {
+        toolchain_info = {
+            name = "llvm",
+            plat = "windows",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clang",
+        program = [[C:\LLVM\bin\clang]]
+    },
+    ["tool_target_sub-hello_windows_x64_ar"] = {
+        toolchain_info = {
+            name = "llvm",
+            plat = "windows",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "llvm_ar",
+        program = [[C:\LLVM\bin\llvm-ar]]
+    },
+    llvm_arch_x64_plat_windows = {
+        arch = "x64",
+        bindir = [[C:\LLVM\bin]],
+        plat = "windows",
+        __global = true,
+        cross = ""
+    },
+    ["tool_target_sub-world_windows_x64_cc"] = {
+        toolchain_info = {
+            name = "llvm",
+            plat = "windows",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clang",
+        program = [[C:\LLVM\bin\clang]]
+    },
+    ["tool_target_modules-ixx_windows_x64_cc"] = {
+        toolchain_info = {
+            name = "llvm",
+            plat = "windows",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clang",
+        program = [[C:\LLVM\bin\clang]]
+    },
+    tool_target_module_ixx_windows_x64_cxx = {
+        toolchain_info = {
+            name = "llvm",
+            plat = "windows",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clang",
+        program = [[C:\LLVM\bin\clang]]
+    },
+    ["tool_target_sub-world_windows_x64_sh"] = {
+        toolchain_info = {
+            plat = "windows",
+            name = "llvm",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clangxx",
+        program = [[C:\LLVM\bin\clang++]]
+    },
+    tool_target_module_ixx_windows_x64_cc = {
+        toolchain_info = {
+            name = "llvm",
+            plat = "windows",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clang",
+        program = [[C:\LLVM\bin\clang]]
+    },
+    ["tool_target_sub-hello_windows_x64_cc"] = {
+        toolchain_info = {
+            name = "llvm",
+            plat = "windows",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clang",
+        program = [[C:\LLVM\bin\clang]]
+    },
+    ["tool_target_modules-ixx_windows_x64_cxx"] = {
+        toolchain_info = {
+            plat = "windows",
+            name = "llvm",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clang",
+        program = [[C:\LLVM\bin\clang]]
+    },
+    ["tool_target_sub-hello_windows_x64_cxx"] = {
+        toolchain_info = {
+            name = "llvm",
+            plat = "windows",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clang",
+        program = [[C:\LLVM\bin\clang]]
+    },
+    ["tool_target_modules-ixx_windows_x64_ld"] = {
+        toolchain_info = {
+            plat = "windows",
+            name = "llvm",
+            arch = "x64",
+            cachekey = "llvm_arch_x64_plat_windows"
+        },
+        toolname = "clangxx",
+        program = [[C:\LLVM\bin\clang++]]
+    }
+}

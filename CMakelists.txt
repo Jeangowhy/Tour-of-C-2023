@@ -1,0 +1,15 @@
+cmake_policy(SET CMP0048 NEW)
+cmake_policy(SET CMP0010 NEW)
+project("Tour-C++2023" VERSION 0.1.0 LANGUAGES CXX)
+
+cmake_minimum_required(VERSION 3.22.0 FATAL_ERROR)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+add_subdirectory(modules_msvc)
+add_subdirectory(modules_gcc)
+add_subdirectory(modules_clang)
+add_subdirectory(modules_ixx)
+# add_subdirectory(modules_clang_partition)

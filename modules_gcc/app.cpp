@@ -12,10 +12,13 @@ import World;
 // g++-12 -std=c++20 -fmodules-ts -xc++-user-header fmt.h
 // import "fmt.h";
 // #include "fmt.h"
+import "fmt.h";
 
 using namespace std;
 
 int main() {
-    // cout << format("Hello c++{}!", 20);
+    // cout << fmt::format("Hello c++{}!", 20);
+
+    cout << "Hello? c++" << MYGCM << endl;
     cout << "Hello? c++" << NS::f() << endl;
 }

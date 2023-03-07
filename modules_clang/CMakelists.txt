@@ -1,0 +1,37 @@
+project(modules_clang_ixx VERSION 0.1.0 LANGUAGES CXX C)
+
+cmake_minimum_required(VERSION 3.22.0 FATAL_ERROR)
+
+
+set(PREBUILT_MODULE_PATH ${CMAKE_BINARY_DIR}/modules)
+
+include(${CMAKE_HOME_DIRECTORY}/c++2023.cmake)
+message("Compiler ID " ${CMAKE_CXX_COMPILER_ID})
+
+if ( CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    # clang++ -std=c++20 -xc++-module ..\hello.cppm --precompile
+    # clang++ -std=c++20 -xc++-module ..\world.cppm --precompile
+    # clang++ -std=c++20 -xc++-module ..\helloworld.cppm -fprebuilt-module-path=".\" --precompile
+    # clang++ -std=c++20 hello.pcm world.pcm helloworld.pcm ..\app.cpp
+	add_compile_options(-fprebuilt-module-path=${PREBUILT_MODULE_PATH})
+	add_compile_options(-std=c++20)
+	# add_link_options(-v) # Verbose output
+	add_executable(myapp_clang app.cpp)
+	add_module(hello.pcm hello.cppm)
+	add_module(world.pcm world.cppm)
+	add_dependencies(myapp_clang hello.pcm world.pcm)
+	add_dependencies(myapp_clang hello.pcm.o world.pcm.o)
+	target_link_options(myapp_clang PUBLIC 
+		"${PREBUILT_MODULE_PATH}/hello.pcm.o" 
+		"${PREBUILT_MODULE_PATH}/world.pcm.o")
+
+	add_custom_command(
+		TARGET myapp_clang
+		POST_BUILD
+		COMMAND echo ${CMAKE_CURRENT_BINARY_DIR}
+		COMMAND myapp_clang
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+		)
+else()
+	message("Unsuported compiler [modules_clang] " ${CMAKE_CXX_COMPILER_ID})
+endif()

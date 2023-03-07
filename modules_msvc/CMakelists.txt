@@ -1,0 +1,31 @@
+project(modules_msvc VERSION 0.1.0 LANGUAGES CXX C)
+
+cmake_minimum_required(VERSION 3.22.0 FATAL_ERROR)
+
+include(${CMAKE_HOME_DIRECTORY}/c++2023.cmake)
+
+if ( CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" )
+	add_compile_options(/experimental:module /c)
+	# add_module(Example.pcm Example.ixx)
+	add_executable(myapp_msvc MyExample.cpp Example.ixx)
+	# add_dependencies(myapp_msvc Example.pcm)
+endif()
+
+if ( 0 AND ${CMAKE_GENERATOR} STREQUAL "Visual Studio 17 2022" )
+	add_compile_options(/std:c++latest)
+	add_executable(hello_cpp23 hello_cpp23.cpp)
+
+	string(REGEX REPLACE "/bin/.*" "/" VCToolsInstallDir ${CMAKE_LINKER})
+	message("CMAKE_LINKER: " ${CMAKE_LINKER})
+	message("VCToolsInstallDir: " ${VCToolsInstallDir})
+
+	add_custom_command(
+		TARGET hello_cpp23
+		PRE_BUILD
+		COMMAND cl /c /EHsc /MD /std:c++latest /experimental:module /c "${VCToolsInstallDir}modules/std.ixx" "${VCToolsInstallDir}modules/std.compat.ixx"
+		# COMMAND cl /std:c++latest /W4 /EHsc /MD /c "${VCToolsInstallDir}modules/std.ixx" "${VCToolsInstallDir}modules/std.compat.ixx"
+		COMMAND echo "Build std, std.compat STL library"
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+		)
+endif()
+

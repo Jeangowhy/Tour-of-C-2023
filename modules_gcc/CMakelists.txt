@@ -1,0 +1,41 @@
+project(modules_gcc VERSION 0.1.0 LANGUAGES CXX C)
+
+cmake_minimum_required(VERSION 3.22.0 FATAL_ERROR)
+
+
+set(PREBUILT_MODULE_PATH ${CMAKE_BINARY_DIR}/modules)
+
+include(${CMAKE_HOME_DIRECTORY}/c++2023.cmake)
+
+if ( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" )
+	# g++-12 -std=c++20 -fmodules-ts -xc++ ..\hello.cppm ..\world.cppm ..\app.cpp -o hello
+	add_compile_options(-std=c++20)
+	add_compile_options(-fmodules-ts)
+	add_compile_options(-xc++)
+	# add_compile_options(-v)
+	# add_link_options(-v) # Verbose output
+	add_module(fmt.gcm fmt.h)
+	add_module(hello.gcm hello.cc)
+	add_module(world.gcm world.cxx)
+	# add_compile_options(hello.cc world.cxx)
+	# g++.exe: fatal error: cannot specify '-o' with '-c', '-S' or '-E' with multiple files
+	add_executable(myapp_gcc app.cpp hello.cc world.cxx)
+	# add_executable(myapp_gcc app.cpp)
+	# add_dependencies(myapp_gcc hello.gcm world.gcm)
+	# target_link_options(myapp_gcc PUBLIC hello.gcm world.gcm)
+	# target_sources(myapp_gcc
+	# 	PRIVATE hello.cc world.cxx)
+
+	add_custom_command(
+		TARGET myapp_gcc
+		PRE_BUILD
+		COMMAND echo g++ -std=c++20 -fmodules-ts -xc++-user-header fmt.h
+		POST_BUILD
+		COMMAND echo ${CMAKE_CURRENT_BINARY_DIR}
+		COMMAND myapp_gcc
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+		)
+
+else()
+	message("Unsuported compiler [modules_gcc]" ${CMAKE_CXX_COMPILER_ID})
+endif()

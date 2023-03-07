@@ -1,0 +1,16 @@
+{
+    mtimes = {
+        ["xmake.lua"] = 1678132375,
+        ["hello-xmake\\world\\xmake.lua"] = 1678152515,
+        ["hello-xmake\\hello\\xmake.lua"] = 1678152425,
+        ["hello-xmake\\xmake.lua"] = 1678152543,
+        ["modules_ixx\\xmake.lua"] = 1678153491
+    },
+    recheck = false,
+    options = {
+        debugger = "gdb",
+        toolchain = "llvm",
+        mode = "debug",
+        sdk = [[C:\LLVM]]
+    }
+}

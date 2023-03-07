@@ -1,0 +1,44 @@
+project(modules_clang_ixx VERSION 0.1.0 LANGUAGES CXX C)
+
+cmake_minimum_required(VERSION 3.22.0 FATAL_ERROR)
+
+
+set(PREBUILT_MODULE_PATH ${CMAKE_BINARY_DIR}/modules)
+
+include(${CMAKE_HOME_DIRECTORY}/c++2023.cmake)
+
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    # clang++ -std=c++20 -xc++-module ..\hello.ixx --precompile
+    # clang++ -std=c++20 -xc++-module ..\world.ixx --precompile
+    # clang++ -std=c++20 -xc++-module ..\helloworld.ixx -fprebuilt-module-path=".\" --precompile
+    # clang++ -std=c++20 hello.pcm world.pcm helloworld.pcm ..\app.cpp
+	add_compile_options(-fprebuilt-module-path=${PREBUILT_MODULE_PATH})
+	add_compile_options(-std=c++20)
+	# add_link_options(-v) # Verbose output
+	add_executable(myapp_ixx app.cpp)
+	add_module(hello-ixx.pcm hello.ixx)
+	add_module(world-ixx.pcm world.ixx)
+	add_dependencies(myapp_ixx hello-ixx.pcm world-ixx.pcm)
+	add_dependencies(myapp_ixx hello-ixx.pcm.o world-ixx.pcm.o)
+	target_link_options(myapp_ixx PUBLIC 
+		"${PREBUILT_MODULE_PATH}/hello-ixx.pcm.o" 
+		"${PREBUILT_MODULE_PATH}/world-ixx.pcm.o")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+	# g++-12 -std=c++20 -fmodules-ts -xc++ ..\hello.ixx ..\world.ixx ..\app.cpp -o hello
+	add_compile_options(-std=c++20)
+	add_compile_options(-fmodules-ts)
+	add_compile_options(-xc++)
+	# add_compile_options(-v)
+	# add_link_options(-v) # Verbose output
+	add_module(hello-ixx.gcm hello.ixx)
+	add_module(world-ixx.gcm world.ixx)
+	# add_compile_options(hello.ixx world.ixx)
+	# g++.exe: fatal error: cannot specify '-o' with '-c', '-S' or '-E' with multiple files
+	add_executable(myapp_ixx app.cpp)
+	add_dependencies(myapp_ixx hello-ixx.gcm world-ixx.gcm)
+	# target_link_options(myapp_ixx PUBLIC hello-ixx.gcm world-ixx.gcm)
+	target_sources(myapp_ixx
+		PRIVATE hello.ixx world.ixx)
+else()
+	message("Unsuported compiler [modules_clang_ixx]" ${CMAKE_CXX_COMPILER_ID})
+endif()

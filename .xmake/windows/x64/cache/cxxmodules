@@ -1,0 +1,22 @@
+{
+    modules = {
+        ["modules-ixx/c++.build.modules.builder"] = {
+            ["build\\.objs\\modules-ixx\\windows\\x64\\debug\\modules_ixx\\app.cpp.obj"] = {
+                requires = {
+                    world = {
+                        method = "by-name",
+                        unique = false
+                    },
+                    hello = {
+                        method = "by-name",
+                        unique = false
+                    }
+                },
+                cppfile = [[modules_ixx\app.cpp]]
+            }
+        }
+    },
+    modules_paths = {
+        ["modules_ixx\\app.cpp"] = [[build\.gens\modules-ixx\windows\x64\debug\rules\modules\cache\092473c2]]
+    }
+}
